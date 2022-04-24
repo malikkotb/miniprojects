@@ -36,7 +36,7 @@ def decode(word, shift_nr):
 def greet(a, b):
     print(f"Hello {a}, welcome to Ceasar Cipher!")
     print(f"The {b} will not be listening.")
-    instruction = input(f"Would you like to encode or decode ? ")
+    instruction = input(f"Would you like to encode (encrpyt) or decode (decrypt) ? ")
     if instruction == "encode":
         user_input = input("Input the message you want to encode:\n").lower()
         shift = int(input("Type the shift number:\n"))
@@ -47,6 +47,24 @@ def greet(a, b):
         decode(user_input, shift)
     else:
         print("Sorry we don't support that instruction, you Donut.")
+    
+    go_on = input("Type 'yes' if you want to go again. Otherwise type anything else.\n")
+    while go_on == 'yes':
+        instruction = input(f"Would you like to encode (encrpyt) or decode (decrypt) ? ")
+        if instruction == "encode":
+            user_input = input("Input the message you want to encode:\n").lower()
+            shift = int(input("Type the shift number:\n"))
+            encode(user_input, shift)
+        elif instruction == "decode":
+            user_input = input("Input the message you want to decode:\n").lower()
+            shift = int(input("Type the shift number:\n"))
+            decode(user_input, shift)
+        else:
+            print("Sorry we don't support that instruction, you Donut.")
+        go_on = input("Type 'yes' if you want to go again. Otherwise type anything else.\n")
+
+        print("Bye, see u next time.")
+
 
 def is_prime(num):
     for i in range(2, num):
