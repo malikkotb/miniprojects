@@ -1,0 +1,6 @@
+# http requests
+# Get -> requests.get()
+# post -> requests.post(); we give the external system, via the api, some piece of data (only interested if
+# response was succesful or not)
+# Put -> requests.put() -> to update a pixel
+# delete -> requests.delete()
