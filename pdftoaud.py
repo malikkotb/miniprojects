@@ -1,6 +1,6 @@
 import PyPDF3, pyttsx3, pdfplumber
 
-file = open('web_scraping/test.pdf', 'rb')
+file = open('FILE_NAME', 'rb')
 pdfReader = PyPDF3.PdfFileReader(file)
 num_pages = pdfReader.numPages
 clean_text = ""
