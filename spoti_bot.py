@@ -18,7 +18,7 @@ def play_liked_songs():
     time.sleep(1)
     pg.hotkey('command', 'S') # shuffle
 
-    #pg.hotkey('command', 'w') # close window
+    pg.hotkey('command', 'w') # close window
 
-play_liked_songs()
-#schedule.every().day.at("8:30").do(play_liked_songs())
+#play_liked_songs()
+schedule.every().day.at("8:30").do(play_liked_songs())
