@@ -1,50 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Voter</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://kit.fontawesome.com/ae9631847d.js" crossorigin="anonymous"></script>
-
-</head>
-<body>
-    
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://kit.fontawesome.com/ae9631847d.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
     <div id="app">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xl-4 offset-xl-4">
-                    <div class="card mt-5">
-                        <div class="card-header">
-                            <h2 class="card-title">Vote now!</h2>
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex">
-                                <div class="d-shrink-0">
-                                    <img src="{{ submissions[0].img }}" alt="">
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <h5 v-once> <!-- makes this section only render once (even if you change the underlying data) -->
-                                        {{ submissions[0].title }}
-                                        <span class="float-end text-primary" style="cursor: pointer">
-                                            <i class="fa fa-chevron-up" aria-hidden="true"></i>
-                                            <strong>{{ submissions[0].votes }}</strong>
-                                        </span>
-                                    </h5>
-                                    <div>{{ submissions[0].desc }}</div>
-                                    <small class="text-muted">Submitted by: {{ submissions[0].author }}</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xl-4 offset-xl-4">
+            <div class="card mt-5">
+              <div class="card-header" v-bind:class="cardHeaderBackgroundColor">
+                <h2 class="card-title" v-bind:style="cardTitleFontSize">
+                  Vote now!
+                  <span class="float-end">{{ totalVotes }} Votes</span>
+                  <!-- totalVotes ist eine computed property und keine methode
+                    deswegen ohne klammern -->
+                </h2>
+              </div>
+              <div class="card-body">
+                <!-- shortcuts for v-bind: just a colon : 
+                shortcut for v:on -> @ -->
+                <template
+                  v-for="(submission, index) in sortedSubmissions"
+                  v-bind:key="submission.id"
+                >
+                  <submission-list-item v-bind:submission="submission"></submission-list-item>
+                  <hr />
+                </template>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <script src="https://unpkg.com/vue@3.1.5"></script>
     <script src="seed.js"></script>
     <script src="app.js"></script>
-</body>
+  </body>
 </html>
