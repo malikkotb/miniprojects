@@ -2,7 +2,9 @@
   <div id="calender-entry">
     <div class="card">
       <div class="card-header text-center">
-        <h5>Neuer Termin für: <strong>Montag</strong></h5>
+        <h5>
+          Neuer Termin für: <strong>{{ acticeDayName }}</strong>
+        </h5>
       </div>
       <div class="card-body">
         <input type="text" class="form-control" placeholder="Neuer Eintrag" />
@@ -31,8 +33,14 @@
 </template>
 
 <script>
+import Store from "../store"
 export default {
     name: "CalendarEntry",
+    computed: {
+      acticeDayName() { 
+        return Store.getters.activeDay().fullName
+      },
+    }
 };
 </script>
 

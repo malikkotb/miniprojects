@@ -26,13 +26,20 @@
         <input
           type="text"
           class="form-control"
+          ref="newEventTitleInput"
           :placeholder="event.title"
           v-on:input="setNewEventTitle($event)"
-        />
-        <div>{{ newEventTitle }}</div>
+        /> <!-- dass v-on:input kann man genau so mit v-model machen-->
+        <!-- v-model sorgt für 2-way binding, bedeutet die Änderungen im Template
+        werden direkt an das Skript weitergegeben und umgekehrt -->
+        <select class="form-select mt-2" v-model="newEventPriority">
+          <option value="-1">Hoch</option>
+          <option value="0">Mittel</option>
+          <option value="1">Tief</option>
+        </select>
         <hr />
         <!--  -->
-        <i class="fas fa-check" role="button" @click="updateEvent()" ></i>
+        <i class="fas fa-check" role="button" @click="updateEvent()"></i>
       </template>
     </div>
   </div>
@@ -49,6 +56,7 @@ export default {
   data() {
     return {
       newEventTitle: "",
+      newEventPriority: this.event.priority,
     };
   },
   computed: {
@@ -73,14 +81,27 @@ export default {
       Store.mutations.deleteEvent(this.day.id, this.event.title);
     },
     editEvent() {
+      // um auf den Input-tag zu fokussieren
+      // auf template refs zugreifen
       Store.mutations.editEvent(this.day.id, this.event.title);
+      // ein Tick vergeht, wenn das Template neu gerendered wurde
+      this.$nextTick(() => {
+        this.$refs.newEventTitleInput.focus();
+      }) // nimmt als parameter eine Funktion, welche dann asugeführt wird, wenn der nächste Tick erreicht wird
     },
     updateEvent() {
-      Store.mutations.updateEvent(this.day.id, this.event.title, this.newEventTitle);
+      Store.mutations.updateEvent(
+        this.day.id,
+        this.event.title,
+        { 
+          title: this.newEventTitle,
+          priority: this.newEventPriority,
+        }
+      );
     },
     setNewEventTitle(event) {
       this.newEventTitle = event.target.value;
-    }
+    },
   },
 };
 </script>

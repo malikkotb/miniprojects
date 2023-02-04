@@ -22,15 +22,16 @@ const mutations = {
     const eventObj = dayObj.events.find((event) => event.title === eventTitle);
     eventObj.edit = true;
   },
-  updateEvent(dayId, oldEventTitle, newEventTitle) {
-    if (newEventTitle.length < 1) {
-      newEventTitle = oldEventTitle;
+  updateEvent(dayId, oldEventTitle, newEvent) {
+    if (newEvent.title.length < 1) {
+      newEvent.title = oldEventTitle;
     }
     const dayObj = state.calendarWeekData.find((day) => day.id === dayId);
     const eventObj = dayObj.events.find(
       (event) => event.title === oldEventTitle
     );
-    eventObj.title = newEventTitle;
+    eventObj.title = newEvent.title;
+    eventObj.priority = Number(newEvent.priority);
     eventObj.edit = false;
   },
   deleteEvent(dayId, eventTitle) {
@@ -40,6 +41,17 @@ const mutations = {
     );
     dayObj.events.splice(eventIndex, 1);
   },
+  changeActiveDay(nowActiveDayId) {
+    // Alle active-attribute der tage auf false setzen
+    state.calendarWeekData.forEach((day) => {
+        day.active = false;
+    })
+    // dann geclickter Tag active attribute auf true setzen
+    console.log(nowActiveDayId)
+    const newActiveObj = state.calendarWeekData.find((day) => day.id === nowActiveDayId);
+    newActiveObj.active = true;
+    console.log(newActiveObj);
+  }
 };
 
 // readonly() sorgt dafür, dass wir nur Daten lesen, aber nicht ändern können
