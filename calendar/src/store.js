@@ -12,6 +12,17 @@ const getters = {
 };
 
 const mutations = {
+  addNewEvent(newEvent) {
+    const activeDay = getters.activeDay();
+    activeDay.events.push({
+        title: newEvent.title,
+        edit: false,
+        color: newEvent.color, 
+        priority: Number(newEvent.priority)
+    });
+
+  },
+
   editEvent(dayId, eventTitle) {
     // Alle edit-Attribute auf false setzten, sodass immer nur ein Event bearbeitet werden kann
     state.calendarWeekData.map((dayObj) => {
@@ -47,10 +58,8 @@ const mutations = {
         day.active = false;
     })
     // dann geclickter Tag active attribute auf true setzen
-    console.log(nowActiveDayId)
     const newActiveObj = state.calendarWeekData.find((day) => day.id === nowActiveDayId);
     newActiveObj.active = true;
-    console.log(newActiveObj);
   }
 };
 
