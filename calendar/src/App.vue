@@ -17,12 +17,12 @@
       <div class="col-2 offset-2">
         <div class="float-end">
           <!-- Mit dem Button blenden wir die Calendar-Settings-Component ein bzw. aus. -->
-          <button class="btn btn-lg mb-2">
+          <button @click="showSettings()" class="btn btn-lg mb-2">
             <i class="fas fa-cogs"></i>
           </button>
         </div>
         <!-- Anfang: Template für die Calendar-Settings-Component -->
-        <CalendarSettings />
+        <CalendarSettings v-show="showSettingsToggle" />
         <!-- Ende: Template für die Calendar-Day-Component -->
       </div>
     </div>
@@ -43,7 +43,20 @@ export default {
     CalendarEntry,
     CalendarSettings,
 
+  },
+
+  data() { // muss immer eine Fkt. sein, welches ein Objekt zurückliefert
+    return {
+      showSettingsToggle: false,
+    }
+  },
+
+  methods: {
+    showSettings() {
+      this.showSettingsToggle ? this.showSettingsToggle = false : this.showSettingsToggle = true;
+    }, 
   }
+
 };
 </script>
 

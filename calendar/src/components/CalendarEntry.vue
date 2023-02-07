@@ -8,14 +8,21 @@
       </div>
       <div class="card-body">
         <!-- {{ event }} -->
-        <div class="alert alert-danger" v-if="error">Der Titel darf nicht leer sein.</div>
+        <div class="alert alert-danger" v-if="error">
+          Der Titel darf nicht leer sein.
+        </div>
         <input
           type="text"
           class="form-control"
           placeholder="Neuer Eintrag"
           v-model="event.title"
-          ref="neuerEintragInputFeld"
+          ref="eventTitleInput"
+          @keyup.enter.exact="addNewEvent()"
+          @keyup.alt.enter="resetEventTitle()"
         />
+        <!-- key modifier: nach dem event listener: .enter
+        oder system modifiers: mit .ctrl.enter 
+      wenn 2 event listeners mit selben button reagieren -> .exact nutzen -->
         <select class="form-select mt-2" v-model="event.priority">
           <option value="-1">Hoch</option>
           <option value="0">Mittel</option>
@@ -34,16 +41,21 @@
         </div>
         <hr />
         <div class="d-grid gap-2">
-          <button class="btn btn-primary" type="reset" @click="addNewEvent()">Eintragen</button>
-          <button class="btn btn-danger">Inhalt löschen</button>
+          <button
+            class="btn btn-primary"
+            :disabled="addEventButtonStatus"
+            @click="addNewEvent()"
+          >
+            Eintragen
+          </button>
+          <button class="btn btn-danger" @click="resetEventTitle()">
+            Inhalt löschen
+          </button>
         </div>
       </div>
     </div>
   </div>
 </template>
-
-// Eintragen clcken, Eingaben an den Store gegeben werden &
-// dort zum Tag hinzugefügt werden
 
 <script>
 import Store from "../store";
@@ -66,6 +78,17 @@ export default {
     activeDayName() {
       return Store.getters.activeDay().fullName;
     },
+    addEventButtonStatus() {
+      return this.event.title === "";
+    },
+  },
+
+  // mounted is also a hook & has to be a function
+  // dont use arrow functions here
+  mounted() {
+    // Zugriff auf tempalte, erhalten wir mit template refs 
+    // we want to focus on the input field as soon as the template has rendered
+    this.$refs.eventTitleInput.focus();
   },
 
   methods: {
@@ -85,16 +108,23 @@ export default {
     },
 
     addNewEvent() {
-      if(this.event.title === "") return (this.error = true);
+      if (this.event.title === "") return (this.error = true);
       Store.mutations.addNewEvent(this.event);
       this.event = {
         title: "",
         color: "primary",
         priority: 0,
-      }
-      // event übergeben und activeDayId
-    }
+      };
+      this.error = false;
+    },
 
+    resetEventTitle() {
+      this.event = {
+        title: "",
+        color: "primary",
+        priority: 0,
+      };
+    },
   },
 };
 </script>
