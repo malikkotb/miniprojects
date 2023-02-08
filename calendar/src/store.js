@@ -5,22 +5,27 @@ import { reactive, readonly } from "vue";
 const state = reactive({
   // wollen das state object explizit zum Reactivity system von vue.js hinzufügen
   calendarWeekData, // 'calendarWeekData' = calendarWeekData
+  activeView: "CalendarWeek", // same name as component
 });
 
 const getters = {
   activeDay: () => state.calendarWeekData.find((day) => day.active),
+  activeView: () => state.activeView,
 };
 
 const mutations = {
   addNewEvent(newEvent) {
     const activeDay = getters.activeDay();
     activeDay.events.push({
-        title: newEvent.title,
-        edit: false,
-        color: newEvent.color, 
-        priority: Number(newEvent.priority)
+      title: newEvent.title,
+      edit: false,
+      color: newEvent.color,
+      priority: Number(newEvent.priority),
     });
+  },
 
+  setActiveView(view) { 
+    state.activeView = view;
   },
 
   editEvent(dayId, eventTitle) {
@@ -55,12 +60,14 @@ const mutations = {
   changeActiveDay(nowActiveDayId) {
     // Alle active-attribute der tage auf false setzen
     state.calendarWeekData.forEach((day) => {
-        day.active = false;
-    })
+      day.active = false;
+    });
     // dann geclickter Tag active attribute auf true setzen
-    const newActiveObj = state.calendarWeekData.find((day) => day.id === nowActiveDayId);
+    const newActiveObj = state.calendarWeekData.find(
+      (day) => day.id === nowActiveDayId
+    );
     newActiveObj.active = true;
-  }
+  },
 };
 
 // readonly() sorgt dafür, dass wir nur Daten lesen, aber nicht ändern können

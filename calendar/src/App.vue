@@ -3,8 +3,9 @@
     <div class="row">
       <div class="col-12">
         <!-- Anfang: Template für die Calendar-Week-Component -->
-        <CalendarWeek />
-        
+        <!-- <CalendarWeekAsList />
+        <CalendarWeek /> -->
+        <component :is="activeView" /> <!-- 'is' attribut an die computed property: activeView gebunden -->
         <!-- Ende: Template für die Calendar-Week-Component -->
       </div>
     </div>
@@ -17,12 +18,12 @@
       <div class="col-2 offset-2">
         <div class="float-end">
           <!-- Mit dem Button blenden wir die Calendar-Settings-Component ein bzw. aus. -->
-          <button @click="showSettings()" class="btn btn-lg mb-2">
+          <button class="btn btn-lg mb-2" :class="buttonSettingsClasses" @click="showSettings()">
             <i class="fas fa-cogs"></i>
           </button>
         </div>
         <!-- Anfang: Template für die Calendar-Settings-Component -->
-        <CalendarSettings v-show="showSettingsToggle" />
+        <CalendarSettings v-if="showSettingsToggle" />
         <!-- Ende: Template für die Calendar-Day-Component -->
       </div>
     </div>
@@ -30,9 +31,12 @@
 </template>
 
 <script>
-import CalendarWeek from './components/CalendarWeek.vue';
-import CalendarEntry from './components/CalendarEntry.vue';
-import CalendarSettings from './components/CalendarSettings.vue';
+// import { defineAsyncComponent } from "vue";
+import Store from "./store.js";
+import CalendarWeek from "./components/CalendarWeek.vue";
+import CalendarEntry from "./components/CalendarEntry.vue";
+import CalendarWeekAsList from "./components/CalendarWeekAsList.vue"
+import CalendarSettings from "./components/CalendarSettings.vue";
 export default {
   name: "App",
   components: {
@@ -40,23 +44,39 @@ export default {
     //'CalendarWeek': CalendarWeek
     // Short way to write the same thing:
     CalendarWeek,
+    CalendarWeekAsList,
     CalendarEntry,
     CalendarSettings,
-
+    // CalendarSettings Component -> asynchron laden:
+    // CalendarSettings: defineAsyncComponent(() => {
+    //   // callback function
+    //   import(/*webpackChunkName: 'CalendarSettingsComponent'*/"./components/CalendarSettings.vue")
+    // }),
   },
 
-  data() { // muss immer eine Fkt. sein, welches ein Objekt zurückliefert
+  data() {
+    // muss immer eine Fkt. sein, welches ein Objekt zurückgibt
     return {
       showSettingsToggle: false,
+    };
+  },
+
+  computed: {
+    buttonSettingsClasses() {
+      return this.showSettingsToggle ? ["btn-success"] : ["btn-outline-success"]
+    },
+    activeView() {
+      return Store.getters.activeView();
     }
   },
 
   methods: {
     showSettings() {
-      this.showSettingsToggle ? this.showSettingsToggle = false : this.showSettingsToggle = true;
-    }, 
-  }
-
+      this.showSettingsToggle
+        ? (this.showSettingsToggle = false)
+        : (this.showSettingsToggle = true);
+    },
+  },
 };
 </script>
 
