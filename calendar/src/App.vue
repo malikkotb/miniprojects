@@ -5,7 +5,10 @@
         <!-- Anfang: Template für die Calendar-Week-Component -->
         <!-- <CalendarWeekAsList />
         <CalendarWeek /> -->
-        <component :is="activeView" /> <!-- 'is' attribut an die computed property: activeView gebunden -->
+        <!-- mit keep-alive sorgt Vue dafür, dass der State erhalten blei-->
+        <!-- <keep-alive> -->
+          <component :is="activeView" /> <!-- 'is' attribut an die computed property: activeView gebunden -->
+        <!-- </keep-alive> -->
         <!-- Ende: Template für die Calendar-Week-Component -->
       </div>
     </div>
@@ -23,7 +26,9 @@
           </button>
         </div>
         <!-- Anfang: Template für die Calendar-Settings-Component -->
-        <CalendarSettings v-if="showSettingsToggle" />
+        <transition name="fade">
+          <CalendarSettings v-if="showSettingsToggle" />
+        </transition>
         <!-- Ende: Template für die Calendar-Day-Component -->
       </div>
     </div>
@@ -88,4 +93,38 @@ export default {
   width: 40px;
   height: 40px;
 }
+
+/* Hat die Transition kein name-Attribut, ist der 
+Name automtisch "v", also z.b. v-enter-from */
+
+/* Transition: Fade */
+/* .NAME_von_Transition-enter-from = anfangszustand*/
+.fade-enter-from,
+.fade-leave-to { 
+  opacity: 0;
+}
+/* Endzustand: name-enter-to*/
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+}
+
+/* Wie die Transtion passieren soll, mit name-enter-active  */
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.25s ease-out;
+}
+
+/* .fade-leave-from {
+  opacity: 1;
+}
+
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-leave-active {
+  transition: all 0.25s ease-out;
+} */
+
 </style>
