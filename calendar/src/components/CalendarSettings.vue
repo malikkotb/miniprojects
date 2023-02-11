@@ -12,17 +12,30 @@
             class="nav-item"
             role="button"
           >
-            <a class="nav-link" :class="isActiveView(componentName)" @click="changeActiveView(componentName)"><i :class="icon" class="text-success"></i></a>
+            <a
+              class="nav-link"
+              :class="isActiveView(componentName)"
+              @click="changeActiveView(componentName)"
+              ><i :class="icon" class="text-success"></i
+            ></a>
           </li>
         </ul>
         <hr />
         <ul class="nav nav-pills nav-fill">
           <li class="nav-item" role="button">
-            <a class="nav-link"
+            <a
+              class="nav-link"
+              :class="isActiveOrdering('priority')"
+              @click="changeOrdering('priority')"
               ><i class="fas fa-sort-numeric-down-alt text-success"></i
             ></a>
           </li>
-          <li class="nav-item" role="button">
+          <li
+            class="nav-item"
+            :class="isActiveOrdering('title')"
+            @click="changeOrdering('title')"
+            role="button"
+          >
             <a class="nav-link"
               ><i class="fas fa-sort-alpha-down text-success"></i
             ></a>
@@ -53,10 +66,21 @@ export default {
 
     isActiveView(componentName) {
       if (componentName === Store.getters.activeView()) {
-        return ["border border-success"]
+        return ["border border-success"];
       }
     },
-  }
+
+    isActiveOrdering(ordering) {
+      if (ordering === Store.getters.activeOrdering()) {
+        return ["border border-success"];
+      }
+    },
+
+    changeOrdering(ordering) {
+      Store.mutations.setActiveOedering(ordering);
+    },
+
+  },
 };
 </script>
 

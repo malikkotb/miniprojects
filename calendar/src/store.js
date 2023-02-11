@@ -6,11 +6,13 @@ const state = reactive({
   // wollen das state object explizit zum Reactivity system von vue.js hinzufügen
   calendarWeekData, // 'calendarWeekData' = calendarWeekData
   activeView: "CalendarWeek", // same name as component
+  activeOrdering: "title",
 });
 
 const getters = {
   activeDay: () => state.calendarWeekData.find((day) => day.active),
   activeView: () => state.activeView,
+  activeOrdering: () => state.activeOrdering,
 };
 
 const mutations = {
@@ -26,6 +28,10 @@ const mutations = {
 
   setActiveView(view) { 
     state.activeView = view;
+  },
+
+  setActiveOrdering(ordering) {
+    state.activeOrdering = ordering;
   },
 
   editEvent(dayId, eventTitle) {

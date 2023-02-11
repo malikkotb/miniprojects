@@ -7,7 +7,9 @@
         <CalendarWeek /> -->
         <!-- mit keep-alive sorgt Vue dafür, dass der State erhalten blei-->
         <!-- <keep-alive> -->
-          <component :is="activeView" /> <!-- 'is' attribut an die computed property: activeView gebunden -->
+          <transition name="fade" mode="out-in" appear>
+            <component :is="activeView" /> <!-- 'is' attribut an die computed property: activeView gebunden -->
+          </transition>
         <!-- </keep-alive> -->
         <!-- Ende: Template für die Calendar-Week-Component -->
       </div>
