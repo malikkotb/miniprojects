@@ -1,0 +1,46 @@
+<!DOCTYPE htm1>
+<html lang="en">
+  <head>
+        <title>DOM Traversal</title>
+        <style>
+            body { 
+                margin: 0; 
+                min-height: 100vh;
+            } 
+
+            body, div { 
+                display:flex; 
+                justify-content: center;
+                align-items: center;
+            }
+
+            .grandparent {
+                width: 200px;
+                height: 200px;
+                background-color: hsl(0, 50%, 50%); 
+            }
+
+            .parent {
+                width: 130px;
+                height: 130px;
+                background-color: hsl(200, 50%, 50%);
+            }
+
+            .child {
+                width: 60px;
+                height: 60px;
+                background-color: hsl(100, 50%, 50%);
+
+            }
+
+        </style>
+        <script src="script.js" defer></script> 
+    </head>
+<body>
+    <div class="grandparent">
+        <div class="parent">
+            <div class="child"></div> 
+        </div>
+    </div> 
+</body> 
+</html>
