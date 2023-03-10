@@ -4,10 +4,13 @@ const app = Vue.createApp({
             userInput: '',
             tasks: [],
             showList: true,
-            buttonText: 'Hide List',
         }
     },
-
+    computed: {
+        buttonText() {
+            return this.showList ? 'Hide List' : 'Show List';
+        }
+    },
     methods: {
         addTask() {
             this.tasks.push(this.userInput);
